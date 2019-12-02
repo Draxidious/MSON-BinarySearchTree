@@ -20,7 +20,7 @@ public class Configuration {
 	
 
 	public static <T> BinaryTreeNode<T> createBinaryTreeNode(BinaryTreeNode<T> left, T elem, BinaryTreeNode<T> right){
-		return new BinaryTreeNodeImp<T>();
+		return new BinaryTreeNodeImp<T>(left,elem,right);
 	}
 	
 	public static BinaryTreeUtility createBinaryTreeUtility(){
