@@ -2,10 +2,13 @@ package structures;
 
 import java.util.Iterator;
 
-public class BinaryTreeUtilityImp implements BinaryTreeUtility {
+public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
+
     @Override
     public <T> Iterator<T> getPreOrderIterator(BinaryTreeNode<T> root) {
-        if(root==null) throw new NullPointerException("Gave null root node to preorderIterator");
+        if (root == null) {
+            throw new NullPointerException("Gave null root node to preorderIterator");
+        }
         return new PreOrderIterator(root);
     }
 
@@ -21,6 +24,7 @@ public class BinaryTreeUtilityImp implements BinaryTreeUtility {
 
     @Override
     public <T> int getDepth(BinaryTreeNode<T> current) {
+        if (current == null) return 0;
         if (current.hasLeftChild() && current.hasRightChild()) {
             return 1 + Math.max(getDepth(current.getLeftChild()), getDepth(current.getRightChild()));
         }
@@ -56,18 +60,26 @@ public class BinaryTreeUtilityImp implements BinaryTreeUtility {
 
     @Override
     public <T extends Comparable<? super T>> boolean isBST(BinaryTreeNode<T> root) {
-        if (root.hasLeftChild() && root.getLeftChild().getData().compareTo(root.getData()) > 0) {
-            return false;
+        if (root == null) {
+            throw new NullPointerException("null root to check if BST");
         }
-        if (root.hasRightChild() && root.getRightChild().getData().compareTo(root.getData()) < 0) {
-            return false;
-        }
-        if (root.hasLeftChild()) {
-            isBST(root.getLeftChild());
-        }
-        if (root.hasRightChild()) {
-            isBST(root.getRightChild());
-        }
-        return true;
+        return isBSTHelper(root, null, null);
     }
+
+    private <T extends Comparable<? super T>> boolean isBSTHelper(BinaryTreeNode<T> root, T min, T max) {
+        System.out.println(max);
+        System.out.println(min);
+        if (min != null && root.getData().compareTo(min) < 0) {
+            return false;
+        }
+        if (max != null && root.getData().compareTo(max) >= 0) {
+            return false;
+        }
+        boolean leftIsBST = !root.hasLeftChild() || isBSTHelper(root.getLeftChild(), min, root.getData());
+        boolean rightIsBST = !root.hasRightChild() || isBSTHelper(root.getRightChild(), root.getData(), max);
+        return leftIsBST && rightIsBST;
+
+    }
+
+
 }

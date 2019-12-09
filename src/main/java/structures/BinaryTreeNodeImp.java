@@ -6,10 +6,10 @@ public class BinaryTreeNodeImp<T> implements BinaryTreeNode<T>{
     private BinaryTreeNodeImp<T> left;
     private BinaryTreeNodeImp<T> right;
 
-    public BinaryTreeNodeImp(BinaryTreeNodeImp<T> le, T elem,  BinaryTreeNodeImp<T> ri) {
+    public BinaryTreeNodeImp(BinaryTreeNode<T> le, T elem, BinaryTreeNode<T> ri) {
         element = elem;
-        left = le;
-        right = ri;
+        left = (BinaryTreeNodeImp<T>) le;
+        right = (BinaryTreeNodeImp<T>) ri;
     }
     @Override
     public T getData() {

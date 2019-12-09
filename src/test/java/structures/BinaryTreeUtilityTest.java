@@ -20,8 +20,8 @@ public class BinaryTreeUtilityTest {
 	// This tree has over 1 million nodes
 	private final BinaryTreeNode<Integer> largeTree = initLargeTree(20);
 
-	private static final <T> BinaryTreeNode<T> node(BinaryTreeNode<T> left, T elem, BinaryTreeNode<T> right){
-		return Configuration.createBinaryTreeNode(left, elem, right);
+	private static final <T> BinaryTreeNodeImp<T> node(BinaryTreeNode<Integer> left, int elem, BinaryTreeNode<Integer> right){
+		return (BinaryTreeNodeImp<T>) Configuration.createBinaryTreeNode(left, elem, right);
 	}
 	
 	@Before
@@ -44,9 +44,9 @@ public class BinaryTreeUtilityTest {
 	// Creates a tree with n levels
 	private BinaryTreeNode<Integer> initLargeTree(int n){
 		if(n < 0) return null;
-		return node(initLargeTree(n-1), n, initLargeTree(n-1));
+		return (node(initLargeTree(n-1), n, initLargeTree(n-1)));
 	}
-	
+
 	private BinaryTreeNode<Integer> initRoot(){
 		return node(null, 5, null);
 	}
