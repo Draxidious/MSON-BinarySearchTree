@@ -23,12 +23,12 @@ public class BinaryTreeNodeImp<T> implements BinaryTreeNode<T>{
 
     @Override
     public boolean hasLeftChild() {
-        return left == null;
+        return left != null;
     }
 
     @Override
     public boolean hasRightChild() {
-        return right == null;
+        return right != null;
     }
 
     @Override
