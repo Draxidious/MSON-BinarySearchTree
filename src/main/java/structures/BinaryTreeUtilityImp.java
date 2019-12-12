@@ -24,7 +24,9 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
 
     @Override
     public <T> int getDepth(BinaryTreeNode<T> current) {
-        if (current == null) return 0;
+        if (current == null) {
+            return 0;
+        }
         if (current.hasLeftChild() && current.hasRightChild()) {
             return 1 + Math.max(getDepth(current.getLeftChild()), getDepth(current.getRightChild()));
         }
@@ -46,7 +48,16 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
             throw new IllegalArgumentException("tolerance less than 0");
         }
         if (current.hasLeftChild() && current.hasRightChild()) {
-            if (Math.abs(getDepth(current.getLeftChild()) - getDepth(current.getRightChild())) <= tolerance) {
+
+            if (Math.abs(getDepth(current.getLeftChild()) - getDepth(current.getRightChild())) <= tolerance
+                && isBalanced(current.getLeftChild(), tolerance)
+                && isBalanced(current.getRightChild(), tolerance)) {
+                return true;
+            }
+
+        }
+        if (current.hasRightChild() || current.hasLeftChild()) {
+            if (getDepth(current) <= tolerance) {
                 return true;
             }
             return false;
@@ -54,6 +65,7 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
         if (!current.hasLeftChild() && !current.hasRightChild()) {
             return true;
         }
+
 
         return false;
     }
@@ -67,8 +79,7 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
     }
 
     private <T extends Comparable<? super T>> boolean isBSTHelper(BinaryTreeNode<T> root, T min, T max) {
-        System.out.println(max);
-        System.out.println(min);
+
         if (min != null && root.getData().compareTo(min) < 0) {
             return false;
         }

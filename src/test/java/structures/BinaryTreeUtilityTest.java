@@ -356,12 +356,12 @@ public class BinaryTreeUtilityTest {
 		assertTrue(utility.isBalanced(root, 0));
 		assertTrue(utility.isBalanced(root, 1));
 		assertTrue(utility.isBalanced(root, 2));
-		
+
 		assertFalse(utility.isBalanced(root2, 0));
 		assertTrue(utility.isBalanced(root2, 1));
 		assertTrue(utility.isBalanced(root2, 2));
 		
-	//      5
+	//                    5
 	//              /            \
 	//             3             19
 	//            / \           /
