@@ -14,7 +14,12 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
 
     @Override
     public <T> Iterator<T> getInOrderIterator(BinaryTreeNode<T> root) {
-        return null;
+        if (root == null) {
+            throw new NullPointerException("Gave null root node to preorderIterator");
+        }
+
+
+        return new InOrderIterator(root);
     }
 
     @Override

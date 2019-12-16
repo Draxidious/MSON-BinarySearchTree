@@ -5,6 +5,8 @@ import java.util.Iterator;
 public class BinarySearchTreeImp implements BinarySearchTree{
     @Override
     public BinarySearchTree add(Comparable toAdd) {
+        //if greater that, move to right, if less than, move left, if
+        //right or left node does not exist, make this node that node
         return null;
     }
 
@@ -30,11 +32,13 @@ public class BinarySearchTreeImp implements BinarySearchTree{
 
     @Override
     public Comparable getMinimum() {
+        //farthest left
         return null;
     }
 
     @Override
     public Comparable getMaximum() {
+        //farthest right
         return null;
     }
 
