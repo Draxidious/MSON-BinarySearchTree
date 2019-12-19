@@ -24,7 +24,11 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
 
     @Override
     public <T> Iterator<T> getPostOrderIterator(BinaryTreeNode<T> root) {
-        return null;
+        if (root == null) {
+            throw new NullPointerException("Gave null root node to postorderIterator");
+        }
+
+        return new PostOrderIterator(root);
     }
 
     @Override
@@ -55,8 +59,8 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
         if (current.hasLeftChild() && current.hasRightChild()) {
 
             if (Math.abs(getDepth(current.getLeftChild()) - getDepth(current.getRightChild())) <= tolerance
-                && isBalanced(current.getLeftChild(), tolerance)
-                && isBalanced(current.getRightChild(), tolerance)) {
+                    && isBalanced(current.getLeftChild(), tolerance)
+                    && isBalanced(current.getRightChild(), tolerance)) {
                 return true;
             }
 
