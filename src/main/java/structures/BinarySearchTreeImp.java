@@ -2,12 +2,42 @@ package structures;
 
 import java.util.Iterator;
 
-public class BinarySearchTreeImp implements BinarySearchTree{
+public class BinarySearchTreeImp implements BinarySearchTree {
+    private BinaryTreeNodeImp root;
+
     @Override
     public BinarySearchTree add(Comparable toAdd) {
-        //if greater that, move to right, if less than, move left, if
-        //right or left node does not exist, make this node that node
-        return null;
+        if (toAdd == null) {
+            throw new NullPointerException("tried to add null element to tree");
+        }
+        if (root == null) {
+            root = (BinaryTreeNodeImp) toAdd;
+        } else {
+            if (!root.hasLeftChild() && !root.hasRightChild()) {
+                if (toAdd.compareTo(root.getData()) < 0) {
+                    root.setLeftChild((BinaryTreeNode) toAdd);
+                } else {
+                    root.setRightChild((BinaryTreeNode) toAdd);
+                }
+            }
+            if (!root.hasLeftChild() && root.hasRightChild()) {
+                if (toAdd.compareTo(root.getData()) < 0) {
+                    root.setLeftChild((BinaryTreeNode) toAdd);
+                } else {
+                    add((Comparable) root.getRightChild());
+                }
+            }
+            if (root.hasLeftChild() && !root.hasRightChild()) {
+                if (toAdd.compareTo(root.getData()) >= 0) {
+                    root.setRightChild((BinaryTreeNode) toAdd);
+                } else {
+                    add((Comparable) root.getLeftChild());
+                }
+            }
+        }
+
+
+        return this;
     }
 
     @Override
