@@ -69,6 +69,7 @@ public class BinarySearchTreeTest {
 			}
 			
 			assertEquals("Add should return tree for convenience.", tree, tree.add(next));
+			System.out.println(next);
 			assertTrue("After add, contains should return true.", tree.contains(next));
 		}
 	}

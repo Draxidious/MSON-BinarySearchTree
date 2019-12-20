@@ -45,7 +45,7 @@ public class BinaryTreeUtilityImp<T> implements BinaryTreeUtility {
         if (current.hasRightChild()) {
             return 1 + getDepth(current.getRightChild());
         }
-        return 0;
+        return 1;
     }
 
     @Override

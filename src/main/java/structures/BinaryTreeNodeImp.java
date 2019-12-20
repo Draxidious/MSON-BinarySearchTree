@@ -32,12 +32,12 @@ public class BinaryTreeNodeImp<T> implements BinaryTreeNode<T>{
     }
 
     @Override
-    public BinaryTreeNode<T> getLeftChild() {
+    public BinaryTreeNodeImp<T> getLeftChild() {
         return left;
     }
 
     @Override
-    public BinaryTreeNode<T> getRightChild() {
+    public BinaryTreeNodeImp<T> getRightChild() {
         return right;
     }
 
