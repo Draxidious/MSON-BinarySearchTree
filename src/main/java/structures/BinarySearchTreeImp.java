@@ -5,39 +5,39 @@ import java.util.Iterator;
 public class BinarySearchTreeImp<T> implements BinarySearchTree {
     private BinaryTreeNodeImp root;
     private BinaryTreeUtilityImp<T> util = new BinaryTreeUtilityImp<>();
+    private int size = 0;
 
     @Override
     public BinarySearchTree add(Comparable toAdd) {
         if (toAdd == null) {
             throw new NullPointerException("tried to add null element to tree");
         }
+        size++;
         if (root == null) {
             root = new BinaryTreeNodeImp(null, toAdd, null);
             return this;
         }
 
+        if (contains(toAdd)) {
+            return this;
+        }
+
+
         return addHelper(toAdd, root);
     }
 
     public BinarySearchTree addHelper(Comparable toAdd, BinaryTreeNodeImp curnode) {
-        if (!curnode.hasLeftChild() && !curnode.hasRightChild()) {
-            if (toAdd.compareTo(curnode.getData()) < 0) {
+        if (toAdd.compareTo(curnode.getData()) < 0) {
+            if (!curnode.hasLeftChild()) {
                 curnode.setLeftChild(new BinaryTreeNodeImp(null, toAdd, null));
-
-            } else {
-                curnode.setRightChild(new BinaryTreeNodeImp(null, toAdd, null));
-            }
-        } else if (!curnode.hasLeftChild() && curnode.hasRightChild()) {
-            if (toAdd.compareTo(curnode.getData()) < 0) {
-                curnode.setLeftChild(new BinaryTreeNodeImp(null, toAdd, null));
-            } else {
-                addHelper(toAdd, curnode.getRightChild());
-            }
-        } else if (curnode.hasLeftChild() && !curnode.hasRightChild()) {
-            if (toAdd.compareTo(curnode.getData()) >= 0) {
-                curnode.setRightChild(new BinaryTreeNodeImp(null, toAdd, null));
             } else {
                 addHelper(toAdd, curnode.getLeftChild());
+            }
+        } else {
+            if (!curnode.hasRightChild()) {
+                curnode.setRightChild(new BinaryTreeNodeImp(null, toAdd, null));
+            } else {
+                addHelper(toAdd, curnode.getRightChild());
             }
         }
 
@@ -59,13 +59,18 @@ public class BinarySearchTreeImp<T> implements BinarySearchTree {
         if (toFind.compareTo(curnode.getData()) == 0) {
             return true;
         }
-        if (curnode.hasRightChild()) {
+        if (curnode.hasRightChild() && !curnode.hasLeftChild()) {
             if (containsHelper(toFind, curnode.getRightChild())) {
                 return true;
             }
         }
-        if (curnode.hasLeftChild()) {
-            if (containsHelper(toFind, curnode.getRightChild())) {
+        if (curnode.hasLeftChild() && !curnode.hasRightChild()) {
+            if (containsHelper(toFind, curnode.getLeftChild())) {
+                return true;
+            }
+        }
+        if (curnode.hasLeftChild() && curnode.hasRightChild()) {
+            if (containsHelper(toFind, curnode.getLeftChild()) || containsHelper(toFind, curnode.getRightChild())) {
                 return true;
             }
         }
@@ -75,17 +80,18 @@ public class BinarySearchTreeImp<T> implements BinarySearchTree {
 
     @Override
     public boolean remove(Comparable toRemove) {
+        size--;
         return false;
     }
 
     @Override
     public int size() {
-        return util.getDepth(root);
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return size == 0;
     }
 
     @Override
@@ -107,5 +113,10 @@ public class BinarySearchTreeImp<T> implements BinarySearchTree {
     @Override
     public Iterator iterator() {
         return null;
+    }
+
+
+    public BinaryTreeNode getRoot() {
+        return root;
     }
 }

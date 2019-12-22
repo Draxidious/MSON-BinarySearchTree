@@ -9,19 +9,24 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.sun.source.tree.Tree;
+import com.sun.source.tree.TreeVisitor;
 import org.junit.Before;
 import org.junit.Test;
 
 import config.Configuration;
 
+import javax.swing.*;
+
 public class BinarySearchTreeTest {
 
-	private BinarySearchTree<Integer> tree;
+	private BinarySearchTreeImp<Integer> tree;
+	private PortableTreeViewer viewer;
 	private static final int SPEED_TEST = 1 << 12;
 	
 	@Before
 	public void setUp() throws Exception {
-		tree = Configuration.createBinarySearchTree();
+		tree = (BinarySearchTreeImp<Integer>) Configuration.createBinarySearchTree();
 		assertNotNull("It looks like you did not set createBinarySearchTree in your configuration file.", tree);
 	}
 
@@ -62,14 +67,14 @@ public class BinarySearchTreeTest {
 		for(int i = 0; i < SPEED_TEST; i++){
 			assertEquals("Tree should have i elements in it.", i, tree.size());
 			int next = r.nextInt();
-			
+
 			if(!valuesAdded.contains(next)){
 				assertFalse("Tree should not contain this value yet.", tree.contains(next));
 				valuesAdded.add(next);
 			}
 			
 			assertEquals("Add should return tree for convenience.", tree, tree.add(next));
-			System.out.println(next);
+
 			assertTrue("After add, contains should return true.", tree.contains(next));
 		}
 	}
@@ -176,7 +181,7 @@ public class BinarySearchTreeTest {
 		values.add(5);
 		values.add(6);
 		values.add(7);
-		for(Integer i : tree){
+		for(Object i : tree){
 			Integer toCheck = values.remove();
 			assertEquals(toCheck, i);
 		}
@@ -196,7 +201,7 @@ public class BinarySearchTreeTest {
 		
 		Collections.sort(values);
 
-		for(Integer i : tree){
+		for(Object i : tree){
 			Integer toCheck = values.remove();
 			assertEquals(toCheck, i);
 		}
