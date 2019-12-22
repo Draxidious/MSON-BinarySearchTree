@@ -78,9 +78,77 @@ public class BinarySearchTreeImp<T> implements BinarySearchTree {
         return false;
     }
 
-    @Override
+
     public boolean remove(Comparable toRemove) {
+        if (!contains(toRemove)) {
+            return false;
+        }
+        BinaryTreeNode<T> parent = parentFinder(root, (T) toRemove);
+        BinaryTreeNode<T> child = getNode((T) toRemove);
         size--;
+        return removeHelper(parent, child);
+    }
+
+    public BinaryTreeNode<T> parentFinder(BinaryTreeNode<T> current, T child) {
+        return null;
+    }
+
+    public BinaryTreeNode<T> getNode(T data) {
+        // return the node that contains the data
+        // it's important to get the node as you need to know if it has any children
+        // when you remove it
+        return null;
+    }
+
+    private boolean removeHelper(BinaryTreeNode<T> parent, BinaryTreeNode<T> toRemove) {
+        if (toRemove.hasLeftChild() && toRemove.hasRightChild()) {
+            System.out.println("Two Children");
+            return removeNodeWithTwoChildren(parent, toRemove);
+        } else if (!toRemove.hasLeftChild() && !toRemove.hasRightChild()) {
+            System.out.println("No Children");
+            return removeNodeWithNoChildren(parent, toRemove);
+        } else if ((toRemove.hasLeftChild() && !toRemove.hasRightChild()) || (!toRemove.hasLeftChild() && toRemove.hasRightChild())) {
+            System.out.println("One child");
+            return removeNodeWithOneChild(parent, toRemove);
+        }
+        System.out.println("Something went wrong");
+
+        return false;
+    }
+
+    private boolean removeNodeWithTwoChildren(BinaryTreeNode<T> parent, BinaryTreeNode<T> toRemove) {
+        // To remove a node with two children, we first find the value we are going to
+        // replace it with.
+
+        // the replacement is found by first getting the right child of the toRemove node
+        // and then traversing as far left on that right child
+        // to find the value in the tree that comes after this node.
+
+        // Set the data in the node we are "removing" to be the value of the
+        // replacement node.
+
+        // We then have to remove the node which we used as a replacement.
+        // Note that it will either be a leaf node with no children or only have a right child (you should utilize the below helper methods to remove it)
+        return false;
+    }
+
+    private boolean removeNodeWithNoChildren(BinaryTreeNode<T> parent, BinaryTreeNode<T> toRemove) {
+        // Figure out if it's the left or right child of the parent and then set it to null
+        // if the parent is null, then you must be removing the root so you need to update
+        // the root to null
+        return false;
+    }
+
+    private boolean removeNodeWithOneChild(BinaryTreeNode<T> parent, BinaryTreeNode<T> toRemove) {
+        // Determine which node parent should link to instead of the
+        // node we are removing.
+        // If toRemove has a left child we will promote its left child
+        // otherwise we will promote its right child
+
+        // If the node we are removing is the root node
+        // its child becomes the new root node.
+
+        // Set the left or right child to be the thing we are promoting
         return false;
     }
 
@@ -96,13 +164,26 @@ public class BinarySearchTreeImp<T> implements BinarySearchTree {
 
     @Override
     public Comparable getMinimum() {
-        return null;
+        if (isEmpty()) {
+            throw new IllegalStateException("Cannot getMin of an empty search tree");
+        }
+        BinaryTreeNode curnode = root;
+        while (curnode.hasLeftChild()) {
+            curnode = curnode.getLeftChild();
+        }
+        return (Comparable) curnode.getData();
     }
 
     @Override
     public Comparable getMaximum() {
-        //farthest right
-        return null;
+        if (isEmpty()) {
+            throw new IllegalStateException("Cannot getMax of an empty search tree");
+        }
+        BinaryTreeNode curnode = root;
+        while (curnode.hasRightChild()) {
+            curnode = curnode.getRightChild();
+        }
+        return (Comparable) curnode.getData();
     }
 
     @Override
@@ -112,11 +193,6 @@ public class BinarySearchTreeImp<T> implements BinarySearchTree {
 
     @Override
     public Iterator iterator() {
-        return null;
-    }
-
-
-    public BinaryTreeNode getRoot() {
-        return root;
+        return util.getInOrderIterator(root);
     }
 }
