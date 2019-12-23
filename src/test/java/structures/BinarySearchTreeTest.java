@@ -29,6 +29,21 @@ public class BinarySearchTreeTest {
 		tree = (BinarySearchTreeImp<Integer>) Configuration.createBinarySearchTree();
 		assertNotNull("It looks like you did not set createBinarySearchTree in your configuration file.", tree);
 	}
+	private static final <T> BinaryTreeNodeImp<T> node(BinaryTreeNode<Integer> left, int elem, BinaryTreeNode<Integer> right){
+		return (BinaryTreeNodeImp<T>) Configuration.createBinaryTreeNode(left, elem, right);
+	}
+
+	private void initRoot3(){
+		//                    5
+		//              /            \
+		//             3             19
+		//            / \           /
+		//           6   7         1
+		//                        /
+		//                       4
+		tree.add(5).add(3).add(6).add(7).add(19).add(1).add(4);
+	}
+
 
 	@Test (timeout = 100)
 	public void testSimpleAddSizeAndIsEmpty(){
@@ -89,13 +104,12 @@ public class BinarySearchTreeTest {
 		tree.contains(null);
 	}
 	
-	@Test (timeout = 100)
+	@Test (timeout = 1000)
 	public void testSimpleAddRemoveAndSize() {
 		assertEquals("Add should return tree for convenience.", tree, tree.add(1));
 		assertEquals("Add should return tree for convenience.", tree, tree.add(5));
 		assertEquals("Add should return tree for convenience.", tree, tree.add(5));
 		assertEquals("Add should return tree for convenience.", tree, tree.add(5));
-		
 		assertEquals(4, tree.size());
 		assertTrue(tree.remove(1));
 		assertEquals(3, tree.size());
@@ -124,7 +138,7 @@ public class BinarySearchTreeTest {
 			assertEquals("Add should return tree for convenience.", tree, tree.add(next));
 			assertTrue("After add, contains should return true.", tree.contains(next));
 		}
-		
+
 		assertEquals(SPEED_TEST, tree.size());
 		for(Integer i : valuesAdded){
 			assertTrue("Could not remove previously added node.", tree.remove(i));
@@ -207,5 +221,26 @@ public class BinarySearchTreeTest {
 		}
 				
 	}
+	@Test
+	public void testParentFinder()
+	{
+		initRoot3();
+		BinaryTreeNode ret = tree.parentFinder(tree.toBinaryTreeNode(),1);
+		BinaryTreeNode ret1 = tree.parentFinder(tree.toBinaryTreeNode(),7);
+		BinaryTreeNode ret2 = tree.parentFinder(tree.toBinaryTreeNode(),19);
+		assertEquals(3,ret.getData());
+		assertEquals(6,ret1.getData());
+		assertEquals(7,ret2.getData());
+	}
+	@Test
+	public void testRemove()
+	{
+		initRoot3();
+		System.out.println(viewer =new PortableTreeViewer(tree.toBinaryTreeNode()));
+		tree.remove(3);
+		System.out.println(viewer =new PortableTreeViewer(tree.toBinaryTreeNode()));
+
+	}
+
 	
 }
