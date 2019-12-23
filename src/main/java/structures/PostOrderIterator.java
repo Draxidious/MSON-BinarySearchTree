@@ -5,9 +5,21 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class PostOrderIterator<T> implements Iterator<T> {
+    /**
+     * Stack to use for iterator.
+     */
     private final Deque<BinaryTreeNode<T>> stack;
+    /**
+     * Current node visiting.
+     */
     private BinaryTreeNode<T> curnode;
+    /**
+     * A variable to store the node that we are peeking at.
+     */
     private BinaryTreeNode<T> peekNode;
+    /**
+     * Last node visited.
+     */
     private BinaryTreeNode<T> lastNode;
 
     public PostOrderIterator(BinaryTreeNode<T> node) {

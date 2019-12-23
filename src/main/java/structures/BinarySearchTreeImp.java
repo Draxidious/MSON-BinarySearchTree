@@ -3,8 +3,17 @@ package structures;
 import java.util.Iterator;
 
 public class BinarySearchTreeImp<T extends Comparable<? super T>> implements BinarySearchTree<T> {
+    /**
+     * The root of the Tree.
+     */
     private BinaryTreeNodeImp root;
+    /**
+     * Utility to help with construction and utilization of tree.
+     */
     private BinaryTreeUtilityImp<T> util = new BinaryTreeUtilityImp<>();
+    /**
+     * Size of the tree.
+     */
     private int size = 0;
     /**
      * Returns the node associated with the most recent contains call, if contains was false, it will be null.
@@ -94,8 +103,8 @@ public class BinarySearchTreeImp<T extends Comparable<? super T>> implements Bin
         if (!current.hasLeftChild() && !current.hasRightChild() || current == null) {
             return null;
         } else {
-            if ((current.hasLeftChild() && current.getLeftChild().getData().compareTo(child) == 0) ||
-                    (current.hasRightChild()) && current.getRightChild().getData().compareTo(child) == 0) {
+            if ((current.hasLeftChild() && current.getLeftChild().getData().compareTo(child) == 0)
+                    || (current.hasRightChild()) && current.getRightChild().getData().compareTo(child) == 0) {
                 return current;
             } else {
                 if (current.getData().compareTo(child) > 0 && current.hasLeftChild()) {
@@ -136,7 +145,8 @@ public class BinarySearchTreeImp<T extends Comparable<? super T>> implements Bin
         } else if (!toRemove.hasLeftChild() && !toRemove.hasRightChild()) {
 
             return removeNodeWithNoChildren(parent, toRemove);
-        } else if ((toRemove.hasLeftChild() && !toRemove.hasRightChild()) || (!toRemove.hasLeftChild() && toRemove.hasRightChild())) {
+        } else if ((toRemove.hasLeftChild() && !toRemove.hasRightChild()) || (!toRemove.hasLeftChild()
+                && toRemove.hasRightChild())) {
 
             return removeNodeWithOneChild(parent, toRemove);
         }
@@ -146,14 +156,6 @@ public class BinarySearchTreeImp<T extends Comparable<? super T>> implements Bin
     }
 
     private boolean removeNodeWithTwoChildren(BinaryTreeNode<T> parent, BinaryTreeNode<T> toRemove) {
-        // To remove a node with two children, we first find the value we are going to
-        // replace it with. the replacement is found by first getting the right child of the toRemove node
-        // and then traversing as far left on that right child to find the value in the tree that comes after this node.
-        // Set the data in the node we are "removing" to be the value of the
-        // replacement node.
-        // We then have to remove the node which we used as a replacement.
-        // Note that it will either be a leaf node with no children or only have a right child (you should utilize the below helper methods to remove it)
-
         BinaryTreeNode<T> par = toRemove;
         BinaryTreeNode<T> replace = toRemove.getRightChild();
 
@@ -162,31 +164,18 @@ public class BinarySearchTreeImp<T extends Comparable<? super T>> implements Bin
             if (replace.hasLeftChild()) {
                 par = replace;
                 replace = replace.getLeftChild();
-            } else found = true;
+            } else {
+                found = true;
+            }
         }
         toRemove.setData(replace.getData());
         removeHelper(par, replace);
         return true;
 
 
-
-    }
-
-    private BinaryTreeNode<T> replacement(BinaryTreeNode<T> toRemove) {
-        BinaryTreeNode<T> cur = toRemove;
-        if (toRemove.hasRightChild()) {
-            cur = toRemove.getRightChild(); // get the right child of toRemove
-        }
-        while (cur.hasLeftChild()) { // traverse left on that right child until we find the value.
-            cur = cur.getLeftChild();
-        }
-        return cur;
     }
 
     private boolean removeNodeWithNoChildren(BinaryTreeNode<T> parent, BinaryTreeNode<T> toRemove) {
-        // Figure out if it's the left or right child of the parent and then set it to null
-        // if the parent is null, then you must be removing the root so you need to update
-        // the root to null
         if (parent == null) {
             root = null;
             return true;
@@ -203,14 +192,6 @@ public class BinarySearchTreeImp<T extends Comparable<? super T>> implements Bin
     }
 
     private boolean removeNodeWithOneChild(BinaryTreeNode<T> parent, BinaryTreeNode<T> toRemove) {
-        // Determine which node parent should link to instead of the
-        // node we are removing.
-        // If toRemove has a left child we will promote its left child
-        // otherwise we will promote its right child
-        // If the node we are removing is the root node
-        // its child becomes the new root node.
-
-        // Set the left or right child to be the thing we are promoting
         if (parent == null) {
             if (toRemove.hasLeftChild()) {
                 root = root.getLeftChild();

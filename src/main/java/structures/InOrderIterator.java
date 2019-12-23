@@ -5,7 +5,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class InOrderIterator<T> implements Iterator<T> {
+    /**
+     * Stack to use for iterator.
+     */
     private final Deque<BinaryTreeNode<T>> stack;
+    /**
+     * Current node visiting.
+     */
     private BinaryTreeNode<T> curnode;
 
     public InOrderIterator(BinaryTreeNode<T> node) {
